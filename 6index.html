@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Be My Valentine? ❤️</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #ffdeeb;
+            font-family: 'Arial', sans-serif;
+            overflow: hidden;
+            touch-action: none;
+            transition: background-color 1s ease;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 25px;
+            border-radius: 25px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            z-index: 10;
+            width: 80%;
+            max-width: 320px;
+            position: relative;
+        }
+
+        #gif { width: 100%; max-width: 220px; border-radius: 15px; transition: transform 0.5s ease; }
+        h1 { color: #ff4d6d; font-size: 1.4rem; margin: 15px 0; }
+
+        .btn-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            margin-top: 20px;
+            min-height: 50px;
+        }
+
+        button {
+            padding: 12px 25px;
+            font-size: 1rem;
+            font-weight: bold;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+        }
+
+        #yesBtn { background-color: #ff4d6d; color: white; }
+        #noBtn {
+            background-color: white;
+            color: #ff4d6d;
+            border: 2px solid #ff4d6d;
+            position: relative;
+        }
+
+        /* Celebration Hearts (Big & Beautiful) */
+        .celebration-heart {
+            position: absolute;
+            font-size: 40px; /* বড় হার্ট */
+            pointer-events: none;
+            z-index: 5;
+            animation: burst 3s ease-out forwards;
+        }
+
+        @keyframes burst {
+            0% { transform: scale(0) translate(0, 0); opacity: 1; }
+            100% { transform: scale(1.5) translate(var(--x), var(--y)); opacity: 0; }
+        }
+
+        /* Background floating heart */
+        .heart { position: absolute; font-size: 20px; opacity: 0.5; z-index: 1; animation: floatUp 4s linear infinite; }
+        @keyframes floatUp {
+            0% { transform: translateY(110vh); }
+            100% { transform: translateY(-10vh); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container" id="mainBox">
+        <img id="gif" src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHpueGZ3bmZqZzR4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4JmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1n/qUIm5wu6LAAog/giphy.gif">
+        
+        <h1 id="msg">Will you be my Valentine? 🌹</h1>
+        
+        <div class="btn-wrapper" id="btnArea">
+            <button id="yesBtn">Yes!</button>
+            <button id="noBtn">No</button>
+        </div>
+    </div>
+
+    <script>
+        const no = document.getElementById('noBtn');
+        const yes = document.getElementById('yesBtn');
+        const msg = document.getElementById('msg');
+        const gif = document.getElementById('gif');
+        const btnArea = document.getElementById('btnArea');
+        const body = document.body;
+
+        let isMoved = false;
+
+        function move() {
+            if (!isMoved) { no.style.position = 'fixed'; isMoved = true; }
+            const maxX = window.innerWidth - no.offsetWidth;
+            const maxY = window.innerHeight - no.offsetHeight;
+            no.style.left = Math.floor(Math.random() * maxX) + "px";
+            no.style.top = Math.floor(Math.random() * maxY) + "px";
+        }
+
+        no.addEventListener('mouseover', move);
+        no.addEventListener('touchstart', (e) => { e.preventDefault(); move(); });
+
+        yesBtn.addEventListener('click', () => {
+            // ১. ক্যাট GIF পরিবর্তন (Celebration Cat)
+            gif.src = "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExNHU2dzR0YnYxeXByZzBqZzR4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4JmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1n/KZTv7A6q17C79nLp9I/giphy.gif"; 
+            gif.style.transform = "scale(1.2)";
+            
+            // ২. টেক্সট আপডেট
+            msg.innerHTML = "I am the luckiest! ❤️<br>See you on the 14th! 😘✨";
+            
+            // ৩. বাটন মুছে ফেলা
+            btnArea.style.display = 'none';
+            body.style.backgroundColor = "#ff85a1"; // ব্যাকগ্রাউন্ড কালার উজ্জ্বল করা
+
+            // ৪. হার্ট বার্স্ট অ্যানিমেশন (ভিডিও ইফেক্টের মতো)
+            for(let i=0; i<40; i++) {
+                createCelebrationHeart();
+            }
+        });
+
+        function createCelebrationHeart() {
+            const h = document.createElement('div');
+            h.className = 'celebration-heart';
+            h.innerHTML = '❤️';
+            
+            // রেন্ডম ডিরেকশনে যাওয়ার জন্য ভ্যারিয়েবল
+            const x = (Math.random() - 0.5) * 600 + "px";
+            const y = (Math.random() - 0.5) * 600 + "px";
+            h.style.setProperty('--x', x);
+            h.style.setProperty('--y', y);
+            
+            h.style.left = "50vw";
+            h.style.top = "50vh";
+            
+            body.appendChild(h);
+            setTimeout(() => h.remove(), 3000);
+        }
+
+        // সাধারণ ব্যাকগ্রাউন্ড হার্ট
+        setInterval(() => {
+            const h = document.createElement('div');
+            h.className = 'heart';
+            h.innerHTML = '💕';
+            h.style.left = Math.random() * 100 + "vw";
+            body.appendChild(h);
+            setTimeout(() => h.remove(), 4000);
+        }, 600);
+    </script>
+</body>
+</html>
